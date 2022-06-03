@@ -10,14 +10,19 @@ class Item extends Entity
 
     function Draw()
     {
+        local centerX = Transform.X - Size[0]*4
+        local centerY = Transform.Y - Size[1]*4
+
         base.Draw()
-        spr(ContentSprite,Transform.X,Transform.Y,0,1,0,0,Size[0],Size[1])
+        spr(ContentSprite,centerX,centerY,0,1,0,0,Size[0],Size[1])
     }
 
     function DrawH()
     {
-        trace(Sprite)
-        spr(Sprite+2,Transform.X,Transform.Y,0,1,0,0,Size[0],Size[1])
-        spr(ContentSprite,Transform.X,Transform.Y,0,1,0,0,Size[0],Size[1])
+        local centerX = Transform.X - Size[0]*4
+        local centerY = Transform.Y - Size[1]*4
+
+        spr(Sprite+2,centerX,centerY,0,1,0,0,Size[0],Size[1])
+        spr(ContentSprite,centerX,centerY,0,1,0,0,Size[0],Size[1])
     }
 }

@@ -28,7 +28,21 @@ class Entity
 
     function Draw()
     {
-        spr(Sprite,Transform.X,Transform.Y,0,1,0,0,Size[0],Size[1])
+        local centerX = Transform.X - Size[0]*4
+        local centerY = Transform.Y - Size[1]*4
+
+        spr(Sprite,centerX,centerY,0,1,0,0,Size[0],Size[1])
+        //circ(Transform.X,Transform.Y,1,15)
+    }
+
+
+
+    function DistanceTo(target)
+    {
+        local x = fabs(Transform.X - target.X)
+        local y = fabs(Transform.Y - target.Y)
+
+        return sqrt(pow(x,2)+pow(y,2))
     }
 }
 // [/included Entities.Entity]
@@ -42,6 +56,7 @@ class Fish extends Entity
     constructor(tank, x,y,size = [1,1],sprite = null, speed = 0)
     {
         base.constructor(x,y,size,sprite,speed)
+        Target = null
         Tank = tank
     }
 
@@ -49,18 +64,28 @@ class Fish extends Entity
     {
         if (Target == null)
         {
+            Target = Tank.InTank()
+        }
 
+        else
+        {
+            circ(Target.X,Target.Y,3,2)
+        }
+        print(floor(DistanceTo(Target)), Target.X, Target.Y+4)
+        if (DistanceTo(Target) < 1)
+        {
+            Target = null
         }
     }
 
     function Update()
     {
-        Vector.Speed = 1
-        Target = mouse()
+        Vector.Speed = 0.1
+        Idle()
         if (Target != null)
         {
-            local adj = (Transform.X + Size[0]*4) - Target[0]
-            local op = (Transform.Y + Size[1]*4) -Target[1]
+            local adj = (Transform.X) - Target.X
+            local op = (Transform.Y) -Target.Y
             local hypo = sqrt(pow(adj,2) + pow(op,2))
 
             local radian = asin(op/hypo)
@@ -169,15 +194,20 @@ class Item extends Entity
 
     function Draw()
     {
+        local centerX = Transform.X - Size[0]*4
+        local centerY = Transform.Y - Size[1]*4
+
         base.Draw()
-        spr(ContentSprite,Transform.X,Transform.Y,0,1,0,0,Size[0],Size[1])
+        spr(ContentSprite,centerX,centerY,0,1,0,0,Size[0],Size[1])
     }
 
     function DrawH()
     {
-        trace(Sprite)
-        spr(Sprite+2,Transform.X,Transform.Y,0,1,0,0,Size[0],Size[1])
-        spr(ContentSprite,Transform.X,Transform.Y,0,1,0,0,Size[0],Size[1])
+        local centerX = Transform.X - Size[0]*4
+        local centerY = Transform.Y - Size[1]*4
+
+        spr(Sprite+2,centerX,centerY,0,1,0,0,Size[0],Size[1])
+        spr(ContentSprite,centerX,centerY,0,1,0,0,Size[0],Size[1])
     }
 }
 // [/included Entities.Item]
@@ -340,7 +370,7 @@ class ItemGrid extends Grid
     {
         Tank = tank
 
-        base.constructor(1,5,30,7)
+        base.constructor(1,5,38,14)
         local current = nodes[0]
         local c = 0
         for (;current != null; current = current.r)
@@ -353,7 +383,6 @@ class ItemGrid extends Grid
 
     function A()
     {
-        trace(Tank)
         focus.data.A(Tank)
     }
 }
@@ -420,6 +449,15 @@ class Tank extends Grid
         {
             focus.B()
         }
+    }
+
+    function InTank()
+    {
+        local transform = {}
+
+        transform.X <- rand() % (200-25) + 30
+        transform.Y <- rand() % (125-30) + 30
+        return transform
     }
 }
 // [/included Grids.Tank]

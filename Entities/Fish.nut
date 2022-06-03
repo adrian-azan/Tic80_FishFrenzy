@@ -6,6 +6,7 @@ class Fish extends Entity
     constructor(tank, x,y,size = [1,1],sprite = null, speed = 0)
     {
         base.constructor(x,y,size,sprite,speed)
+        Target = null
         Tank = tank
     }
 
@@ -13,18 +14,28 @@ class Fish extends Entity
     {
         if (Target == null)
         {
+            Target = Tank.InTank()
+        }
 
+        else
+        {
+            circ(Target.X,Target.Y,3,2)
+        }
+        print(floor(DistanceTo(Target)), Target.X, Target.Y+4)
+        if (DistanceTo(Target) < 1)
+        {
+            Target = null
         }
     }
 
     function Update()
     {
-        Vector.Speed = 1
-        Target = mouse()
+        Vector.Speed = 0.1
+        Idle()
         if (Target != null)
         {
-            local adj = (Transform.X + Size[0]*4) - Target[0]
-            local op = (Transform.Y + Size[1]*4) -Target[1]
+            local adj = (Transform.X) - Target.X
+            local op = (Transform.Y) -Target.Y
             local hypo = sqrt(pow(adj,2) + pow(op,2))
 
             local radian = asin(op/hypo)

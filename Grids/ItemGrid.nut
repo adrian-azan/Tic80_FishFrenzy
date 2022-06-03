@@ -5,7 +5,7 @@ class ItemGrid extends Grid
     {
         Tank = tank
 
-        base.constructor(1,5,30,7)
+        base.constructor(1,5,38,14)
         local current = nodes[0]
         local c = 0
         for (;current != null; current = current.r)
@@ -18,7 +18,6 @@ class ItemGrid extends Grid
 
     function A()
     {
-        trace(Tank)
         focus.data.A(Tank)
     }
 }

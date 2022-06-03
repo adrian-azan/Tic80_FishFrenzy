@@ -58,4 +58,13 @@ class Tank extends Grid
             focus.B()
         }
     }
+
+    function InTank()
+    {
+        local transform = {}
+
+        transform.X <- rand() % (200-25) + 30
+        transform.Y <- rand() % (125-30) + 30
+        return transform
+    }
 }

@@ -15,6 +15,20 @@ class Entity
 
     function Draw()
     {
-        spr(Sprite,Transform.X,Transform.Y,0,1,0,0,Size[0],Size[1])
+        local centerX = Transform.X - Size[0]*4
+        local centerY = Transform.Y - Size[1]*4
+
+        spr(Sprite,centerX,centerY,0,1,0,0,Size[0],Size[1])
+        //circ(Transform.X,Transform.Y,1,15)
+    }
+
+
+
+    function DistanceTo(target)
+    {
+        local x = fabs(Transform.X - target.X)
+        local y = fabs(Transform.Y - target.Y)
+
+        return sqrt(pow(x,2)+pow(y,2))
     }
 }
