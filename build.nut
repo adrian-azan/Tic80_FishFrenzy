@@ -15,6 +15,7 @@ class Entity
 {
     X = null
     Y = null
+    Vector = null
     Spr = null
     Size = null
 
@@ -24,6 +25,7 @@ class Entity
         Y = y
         Spr = spr
         Size = size
+        Vector = [0,0,0]
     }
 
     function Draw()
@@ -32,6 +34,49 @@ class Entity
     }
 }
 // [/included Entities.Entity]
+// [included Entities.Fish]
+
+class Fish extends Entity
+{
+    Speed = null
+    Target = null
+
+
+
+    function Update()
+    {
+        Speed = 1
+        Target = mouse()
+        if (Target != null)
+        {
+            local adj = (X + Size[0]*4) - Target[0]
+            local op = (Y + Size[1]*4) -Target[1]
+            local hypo = sqrt(adj*adj + op*op)
+
+            local angle = asin(op/hypo)
+         //   local degree = angle*(180/PI)
+
+
+            if ((adj >= 0 && op >= 0) || (adj >= 0 && op <= 0))
+            {
+              //  degree = 90 + abs(90-degree)
+                angle = (PI/2) + fabs((PI/2)-angle)
+
+            }
+
+            Vector[0] = Speed*cos(angle)
+            Vector[1] = -(Speed*sin(angle))
+        }
+
+        X += Vector[0]
+        Y += Vector[1]
+
+
+
+    }
+}
+// [/included Entities.Fish]
+
 // [included UI.Clickable]
 
 class Clickable
@@ -129,10 +174,22 @@ class Item extends Entity
         spr(Spr+2,X,Y,0,1,0,0,Size[0],Size[1])
         spr(ContentSprite,X,Y,0,1,0,0,Size[0],Size[1])
     }
-
-
 }
 // [/included Entities.Item]
+// [included Entities.Items.AddFish]
+
+class AddFish extends Item
+{
+
+
+
+    function A(...)
+    {
+        local fishX = 50//rand() % (210-X-5)
+        vargv[0].Fish.push(Fish(X+fishX+5,35,[2,2],0))
+    }
+}
+// [/included Entities.Items.AddFish]
 
 // [included Grids.Grid]
 
@@ -273,16 +330,26 @@ class Grid
 
 class ItemGrid extends Grid
 {
-
-    constructor()
+    Tank = null
+    constructor(tank)
     {
+        Tank = tank
+
         base.constructor(1,5,30,7)
         local current = nodes[0]
         local c = 0
         for (;current != null; current = current.r)
         {
-            current.data = Item(c++*20+X,Y,[2,2],480,0)
+            current.data = AddFish(c++*20+X,Y,[2,2],480,0)
         }
+
+
+    }
+
+    function A()
+    {
+        trace(Tank)
+        focus.data.A(Tank)
     }
 }
 // [/included Grids.ItemGrid]
@@ -292,10 +359,12 @@ class ItemGrid extends Grid
 class Tank extends Grid
 {
     Items = null
+    Fish = null
     constructor()
     {
-        Items = ItemGrid()
+        Items = ItemGrid(this)
         focus = Items
+        Fish = []
     }
 
 
@@ -304,6 +373,14 @@ class Tank extends Grid
         rectb(25,5,210,125,0)
         rectb(25,5,210,20,0)
         Items.Draw()
+
+        foreach(fish in Fish)
+        {
+            fish.Draw()
+            fish.Update()
+        }
+
+        print(Fish.len(),40,40)
     }
 
     function UPDATE()
