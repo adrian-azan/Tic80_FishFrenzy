@@ -11,12 +11,13 @@ class Item extends Entity
     function Draw()
     {
         base.Draw()
-        spr(ContentSprite,X,Y,0,1,0,0,Size[0],Size[1])
+        spr(ContentSprite,Transform.X,Transform.Y,0,1,0,0,Size[0],Size[1])
     }
 
     function DrawH()
     {
-        spr(Spr+2,X,Y,0,1,0,0,Size[0],Size[1])
-        spr(ContentSprite,X,Y,0,1,0,0,Size[0],Size[1])
+        trace(Sprite)
+        spr(Sprite+2,Transform.X,Transform.Y,0,1,0,0,Size[0],Size[1])
+        spr(ContentSprite,Transform.X,Transform.Y,0,1,0,0,Size[0],Size[1])
     }
 }

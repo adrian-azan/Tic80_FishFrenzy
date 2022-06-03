@@ -1,39 +1,45 @@
 class Fish extends Entity
 {
-    Speed = null
     Target = null
+    Tank = null
 
+    constructor(tank, x,y,size = [1,1],sprite = null, speed = 0)
+    {
+        base.constructor(x,y,size,sprite,speed)
+        Tank = tank
+    }
 
+    function Idle()
+    {
+        if (Target == null)
+        {
+
+        }
+    }
 
     function Update()
     {
-        Speed = 1
+        Vector.Speed = 1
         Target = mouse()
         if (Target != null)
         {
-            local adj = (X + Size[0]*4) - Target[0]
-            local op = (Y + Size[1]*4) -Target[1]
-            local hypo = sqrt(adj*adj + op*op)
+            local adj = (Transform.X + Size[0]*4) - Target[0]
+            local op = (Transform.Y + Size[1]*4) -Target[1]
+            local hypo = sqrt(pow(adj,2) + pow(op,2))
 
-            local angle = asin(op/hypo)
-         //   local degree = angle*(180/PI)
+            local radian = asin(op/hypo)
 
-
+            // //Check for 2nd/3rd quandrant
             if ((adj >= 0 && op >= 0) || (adj >= 0 && op <= 0))
             {
-              //  degree = 90 + abs(90-degree)
-                angle = (PI/2) + fabs((PI/2)-angle)
-
+                radian = (PI/2) + fabs((PI/2)-radian)
             }
 
-            Vector[0] = Speed*cos(angle)
-            Vector[1] = -(Speed*sin(angle))
+            Vector.X = Vector.Speed*cos(radian)
+            Vector.Y = -(Vector.Speed*sin(radian))
         }
 
-        X += Vector[0]
-        Y += Vector[1]
-
-
-
+        Transform.X += Vector.X
+        Transform.Y += Vector.Y
     }
 }
