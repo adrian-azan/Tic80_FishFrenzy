@@ -5,9 +5,12 @@
 
 
 include("Entities.Entity")
+include("Entities.Fish")
+
 include("UI.Clickable")
 include("UI.Button")
 include("Entities.Item")
+include("Entities.Items.AddFish")
 
 include("Grids.Grid")
 include("Grids.ItemGrid")

@@ -19,6 +19,4 @@ class Item extends Entity
         spr(Spr+2,X,Y,0,1,0,0,Size[0],Size[1])
         spr(ContentSprite,X,Y,0,1,0,0,Size[0],Size[1])
     }
-
-
 }

@@ -2,6 +2,7 @@ class Entity
 {
     X = null
     Y = null
+    Vector = null
     Spr = null
     Size = null
 
@@ -11,6 +12,7 @@ class Entity
         Y = y
         Spr = spr
         Size = size
+        Vector = [0,0,0]
     }
 
     function Draw()
