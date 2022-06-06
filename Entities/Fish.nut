@@ -2,12 +2,18 @@ class Fish extends Entity
 {
     Target = null
     Tank = null
+    Hunger = null
+    DropAmount = null
+    CoolDown = null
 
     constructor(tank, x,y,size = [1,1],sprite = null, speed = 0)
     {
         base.constructor(x,y,size,sprite,speed)
         Target = null
         Tank = tank
+        Hunger = 0
+        DropAmount = 10
+        CoolDown = TimerLoop(5)
     }
 
     function Idle()
@@ -19,9 +25,16 @@ class Fish extends Entity
 
         else
         {
-            circ(Target.X,Target.Y,3,2)
+            circ(Target.X,Target.Y,2,2)
         }
-        print(floor(DistanceTo(Target)), Target.X, Target.Y+4)
+
+
+        if (CoolDown.Peak())
+        {
+            Tank.AddCoin(Transform)
+        }
+
+        //print(CoolDown.ToString(), Transform.X, Transform.Y+3)
         if (DistanceTo(Target) < 1)
         {
             Target = null

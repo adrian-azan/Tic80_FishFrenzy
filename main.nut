@@ -3,8 +3,11 @@
 // desc:   short description
 // script: squirrel
 
+include("Timer")
+include("TimerLoop")
 
 include("Entities.Entity")
+include("Coin")
 include("Entities.Fish")
 
 include("UI.Clickable")

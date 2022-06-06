@@ -4,6 +4,7 @@ class Entity
     Vector = null
     Sprite = null
     Size = null
+    CoolDown = null
 
     constructor(x,y,size = [1,1],sprite = null, speed = 0)
     {
@@ -11,6 +12,7 @@ class Entity
         Vector = {X=0,Y=0,Speed = speed}
         Sprite = sprite
         Size = size
+        CoolDown = Timer(RAND_MAX)
     }
 
     function Draw()
@@ -21,8 +23,6 @@ class Entity
         spr(Sprite,centerX,centerY,0,1,0,0,Size[0],Size[1])
         //circ(Transform.X,Transform.Y,1,15)
     }
-
-
 
     function DistanceTo(target)
     {

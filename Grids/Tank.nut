@@ -2,11 +2,13 @@ class Tank extends Grid
 {
     Items = null
     Fish = null
+    Coins = null
     constructor()
     {
         Items = ItemGrid(this)
         focus = Items
         Fish = []
+        Coins = []
     }
 
 
@@ -23,7 +25,13 @@ class Tank extends Grid
             fish.Update()
         }
 
-
+        for (local c = 0; c < Coins.len();c++)
+        {
+            Coins[c].Draw()
+            Coins[c].Update()
+            if (Coins[c].CoolDown.Finished())
+                Coins.remove(c)
+        }
     }
 
     function UPDATE()
@@ -66,5 +74,11 @@ class Tank extends Grid
         transform.X <- rand() % (200-25) + 30
         transform.Y <- rand() % (125-30) + 30
         return transform
+    }
+
+    function AddCoin(transform)
+    {
+        Coins.push(Coin(transform.X,transform.Y,
+        [2,2],256,0.2))
     }
 }
